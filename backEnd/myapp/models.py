@@ -29,3 +29,23 @@ class Student(models.Model):
         return self.name
     def get_surname(self):
         return self.surname
+
+class Course(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    class Meta:
+        app_label='myapp'
+    def __str__(self):
+        return f"{self.name}"
+    
+    # setters
+    def set_id(self, id):
+        self.id = id
+    def set_name(self, name):
+        self.name = name
+        
+    # getters
+    def get_id(self):
+        return self.id
+    def get_name(self):
+        return self.name

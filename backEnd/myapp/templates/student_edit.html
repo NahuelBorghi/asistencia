@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar estudiante</title>
+</head>
+<body>
+    <h1>Editar estudiante</h1>
+    <form action="/student_edit/{{student_id}}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ student_id }}">
+        {{ form.as_p }}
+        <input type="submit" name="submit" value="Guardar cambios">
+    </form>
+</body>
+</html>
