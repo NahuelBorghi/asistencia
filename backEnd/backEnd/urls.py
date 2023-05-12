@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from myapp.views import student_list, student_add, student_edit, student_delete, course_add, course_delete, course_edit, course_list
+from myapp.views import student_list, student_add, student_edit, student_delete, course_add, course_delete, course_edit, course_list, attendance_by_course, home, mark_attendance
 
 urlpatterns = [
+    path('', home , name="home"),
     path('admin/', admin.site.urls),
     path('students/', student_list, name='student_list'),
     path('student_add/', student_add),
@@ -28,4 +29,7 @@ urlpatterns = [
     path('course_add/', course_add),
     path('course_edit/<int:course_id>', course_edit, name='course_edit'),
     path('course_delete/<int:course_id>/', course_delete, name='course_delete'),
+    path('attendance/course/<int:course_id>/', attendance_by_course, name='attendance_by_course'),
+    path('mark_attendance', mark_attendance, name='mark_attendance'),
+    
 ]

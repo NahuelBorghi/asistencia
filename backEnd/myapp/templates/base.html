@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %} {% endblock %}</title>
+    <!-- Aquí se incluirían los archivos CSS y JS -->
+</head>
+<body>
+    <nav>
+        <!-- Aquí se incluiría el menú de navegación -->
+        <ul>
+            <li><a href="/students">estudiantes</a></li>
+            <li><a href="/courses">cursos</a></li>
+            <li><a href="/attendance/course/2/">asistencia</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+        <!-- Aquí se incluiría el pie de página -->
+    </footer>
+</body>
+</html>

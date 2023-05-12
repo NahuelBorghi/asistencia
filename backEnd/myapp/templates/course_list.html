@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lista de cursos</title>
-</head>
-<body>
-    <h1>Lista de cursos:</h1>
-    <ul>
-    {% for course in courses %}
-        <li>materia n°:{{course.id}} . {{course.name }}
-            <a href="/course_edit/{{course.id}}">Editar</a>
-            <a href="/course_delete/{{course.id}}">Eliminar</a>
-        </li>
-    {% endfor %}
-    </ul>
-    <h2><a href="/course_add/">agregar cursos</a></h2>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Lista de cursos:</h1>
+<ul>
+{% for course in courses %}
+    <li>materia n°:{{course.id}} . {{course.name }}
+        <a href="/course_edit/{{course.id}}">Editar</a>
+        <a href="/course_delete/{{course.id}}">Eliminar</a>
+    </li>
+{% endfor %}
+</ul>
+<h2><a href="/course_add/">agregar cursos</a></h2>
+{% endblock %}

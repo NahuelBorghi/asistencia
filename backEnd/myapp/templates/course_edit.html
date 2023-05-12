@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Editar cursos</title>
-</head>
-<body>
-    <h1>Editar cursos</h1>
-    <form action="/course_edit/{{course_id}}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="id" value="{{ course_id }}">
-        {{ form.as_p }}
-        <input type="submit" name="submit" value="Guardar cambios">
-    </form>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Editar cursos</h1>
+<form action="/course_edit/{{course_id}}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ course_id }}">
+    {{ form.as_p }}
+    <input type="submit" name="submit" value="Guardar cambios">
+</form>
+{% endblock %}

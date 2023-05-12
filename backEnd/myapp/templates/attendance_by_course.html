@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Presentes en la materia</h1>
+
+{% if attendances %}
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre del estudiante</th>
+        <th>Fecha</th>
+        <th>¿Asistió?</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for attendance in attendances %}
+        <tr>
+          <td>{{ attendance.student_id.first_name }} {{ attendance.student_id.last_name }}</td>
+          <td>{{ attendance.date }}</td>
+          <td>{{ attendance.present }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p>No hay presentes registrados para esta materia.</p>
+{% endif %}
+{% endblock %}
