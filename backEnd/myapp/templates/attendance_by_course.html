@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Presentes en la materia</h1>
+<h1>Presentes en la {{course.name}}</h1>
 
 {% if attendances %}
   <table>
@@ -15,9 +15,15 @@
     <tbody>
       {% for attendance in attendances %}
         <tr>
-          <td>{{ attendance.student_id.first_name }} {{ attendance.student_id.last_name }}</td>
+          <td>{{ attendance.student.name }} {{ attendance.student.id }}</td>
           <td>{{ attendance.date }}</td>
-          <td>{{ attendance.present }}</td>
+          <td>
+            {% if attendance.present == 1 %}
+            Presente
+            {%else%}
+            Ausente
+            {%endif%}
+          </td>
         </tr>
       {% endfor %}
     </tbody>

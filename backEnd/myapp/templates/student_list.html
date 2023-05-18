@@ -8,64 +8,9 @@
     <li>{{ student.surname}},{{student.name }}. DNI:{{student.id}}
         <a href="/student_edit/{{student.id}}">Editar</a>
         <a href="/student_delete/{{student.id}}">Eliminar</a>
-        <button class="mark-attendance">Marcar asistencia</button>
     </li>
 {% endfor %}
 </ul>
 <h2><a href="/student_add/">agregar estudiantes</a></h2>
-<script>
-    // Seleccionamos todos los botones que permiten marcar la asistencia
-const buttons = document.querySelectorAll('.mark-attendance');
 
-// Agregamos un event listener a cada botón
-for (let i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener('click', function() {
-
-    // Definimos los datos necesarios para marcar la asistencia
-    const studentId = 42235717;
-    const courseId = 2;
-    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-    // Creamos una petición HTTP POST
-    const request = new XMLHttpRequest();
-    request.open('POST', '/mark_attendance');
-    request.setRequestHeader('X-CSRFToken', csrftoken);
-    request.setRequestHeader('Accept', 'application/json');
-
-    // Manejamos la respuesta de la petición
-    request.onload = function() {
-      if (request.status === 200) {
-
-        // Agregamos los datos de la asistencia a la tabla de asistencias
-        const data = JSON.parse(request.responseText);
-        const tableBody = document.querySelector('table tbody');
-        const row = document.createElement('tr');
-        const courseIdCell = document.createElement('td');
-        courseIdCell.textContent = data.course_id;
-        const studentIdCell = document.createElement('td');
-        studentIdCell.textContent = data.student_id;
-        const dateCell = document.createElement('td');
-        dateCell.textContent = data.date;
-        const presentCell = document.createElement('td');
-        presentCell.textContent = data.present;
-        row.appendChild(courseIdCell);
-        row.appendChild(studentIdCell);
-        row.appendChild(dateCell);
-        row.appendChild(presentCell);
-        tableBody.appendChild(row);
-      }
-    };
-
-    // Creamos un objeto FormData con los datos de la asistencia
-    const formData = new FormData();
-    formData.append('course_id', courseId);
-    formData.append('student_id', studentId);
-    formData.append('date', new Date().toISOString().slice(0, 10));
-    formData.append('present', 'True');
-
-    // Enviamos la petición con los datos de la asistencia
-    request.send(formData);
-    });
-  }
-  </script>
 {% endblock %}

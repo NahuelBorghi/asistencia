@@ -31,6 +31,7 @@ def student_edit(request, student_id):
     # Obtenemos el estudiante con el id especificado en la URL
     # si modifico el id no edita sino que crea un nuevo estudiante. deberia darle un numero internamente en vez de manejar todo por el atributo id
     student = get_object_or_404(Student, id=student_id)
+    courses = Course.objects.all()
     if request.method == 'POST':
         form = StudentForm(request.POST, instance=student)
         if form.is_valid():
@@ -40,6 +41,7 @@ def student_edit(request, student_id):
     else:
         form = StudentForm(instance=student)
     context = {
+        'courses': courses,
         'form': form,
         'student_id': student_id,
     }
@@ -95,9 +97,14 @@ def course_delete(request, course_id):
     return redirect('course_list')
 
 def attendance_by_course(request, course_id):
+    # uso get para traer un curso especifico
     # filtra las asistencias correspondientes al curso
-    attendances = Attendance.objects.filter(course_id=course_id)
-    context = {'attendances': attendances}
+    # usa select_related para traer los datos de la tabla student y usarlos bajo el mismo nombre
+    course = Course.objects.get(id=course_id)
+    attendances = Attendance.objects.filter(course_id=course_id).select_related('student')
+    context = {
+        'attendances': attendances,
+        'course': course}
     # muestra la lista de asistencias
     return render(request, 'attendance_by_course.html', context)
 
