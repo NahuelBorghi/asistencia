@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
-from .models import Student, Course, Attendance
+from .models import Student, Course, Attendance, Matriculation
 from .forms import StudentForm, CourseForm
 from datetime import datetime
 # Create your views here.
@@ -102,7 +102,9 @@ def attendance_by_course(request, course_id):
     # usa select_related para traer los datos de la tabla student y usarlos bajo el mismo nombre
     course = Course.objects.get(id=course_id)
     attendances = Attendance.objects.filter(course_id=course_id).select_related('student')
+    matriculation = Matriculation.objects.filter(course_id=course_id,on_going=True).select_related('student_id')
     context = {
+        'matriculation': matriculation,
         'attendances': attendances,
         'course': course}
     # muestra la lista de asistencias
@@ -118,6 +120,25 @@ def mark_attendance(request):
         # crea un nuevo objeto de asistencia y lo guarda
         attendance = Attendance(student_id=student_id, course_id=course_id, date=date, present=True)
         attendance.save()
+        # devuelve una respuesta JSON exitosa
+        return JsonResponse({'success': True})
+    else:
+        # devuelve una respuesta JSON de error si la solicitud no es una solicitud POST
+        return JsonResponse({'success': False})
+
+def matriculate(request):
+    if request.method == 'POST':
+        # obtiene los ids del estudiante y el curso desde la solicitud
+        student_id = request.POST.get('student_id')
+        course_id = request.POST.get('course_id')
+        
+        # Buscar la instancia del curso utilizando el course_id seleccionado
+        course = Course.objects.get(id=course_id)
+        # Buscar la instancia del curso utilizando el course_id seleccionado
+        student = Student.objects.get(id=student_id)
+        # crea un nuevo objeto de asistencia y lo guarda
+        matriculation = Matriculation(student_id=student, course_id=course, on_going=True, course_approved=False, final_approved=False)
+        matriculation.save()
         # devuelve una respuesta JSON exitosa
         return JsonResponse({'success': True})
     else:

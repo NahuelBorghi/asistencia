@@ -12,16 +12,15 @@
     <label for="course">Seleccione el curso:</label>
     <select name="course" id="course">
         {% for course in courses %}
-        <option value="{{ course.id }}">{{ course.name }}</option>
+        <option value={{ course.id }}>{{ course.name }}</option>
         {% endfor %}
     </select>
-    <button type="submit">Enviar</button>
 </form>
-<button class="mark-attendance">Marcar asistencia</button>
+<button class="matriculate">Matricular</button>
 
 <script>
     // Seleccionamos todos los botones que permiten marcar la asistencia
-const buttons = document.querySelectorAll('.mark-attendance');
+const buttons = document.querySelectorAll('.matriculate');
 
 // Agregamos un event listener a cada botón
 for (let i = 0; i < buttons.length; i++) {
@@ -36,12 +35,18 @@ for (let i = 0; i < buttons.length; i++) {
     const studentId = parts[parts.length - 1];
     // imprimir el ID del estudiante para pruebas
     console.log(studentId);
-    const courseId = 2;
+
+    // Obtener el elemento <select> por su id
+    const selectElement = document.getElementById('course');
+    // Obtener el valor seleccionado del <select>
+    const courseId = parseInt(selectElement.value);
+    // Imprimir el valor seleccionado para verificar
+    console.log(courseId);
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     // Creamos una petición HTTP POST
     const request = new XMLHttpRequest();
-    request.open('POST', '/mark_attendance');
+    request.open('POST', '/matriculate');
     request.setRequestHeader('X-CSRFToken', csrftoken);
     request.setRequestHeader('Accept', 'application/json');
 

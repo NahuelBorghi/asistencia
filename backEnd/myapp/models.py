@@ -19,7 +19,18 @@ class Course(models.Model):
         return f"{self.name}"
 
 class Attendance(models.Model):
+    id = models.IntegerField(primary_key=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     present = models.BooleanField(default=False)
     date = models.DateField(auto_now_add=True)
+
+class Matriculation(models.Model):
+    id = models.IntegerField(primary_key=True)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, db_column='course_id')
+    student_id = models.ForeignKey(Student, on_delete=models.CASCADE, db_column='student_id')
+    on_going = models.BooleanField(default=False)
+    course_approved = models.BooleanField(default=False)
+    final_approved = models.BooleanField(default=False)
+    class Meta:
+        app_label='myapp'
